@@ -38,24 +38,31 @@ def esp32():
 def generate_status():
   json = request.get_json()
   prompt = json.get("prompt")
-  data = data.get("data")
+  data = json.get("data")
   
   if prompt == "status":
     prompt = "Using the data provided, please respond with an overall health report or check of the esp32 microcontroller in context of memory (heap) usage."
   if not prompt:
             return jsonify({'error': 'No prompt provided'}), 400
 
-  completion = client.chat.completions.create(
-    model="gpt-4o-mini",
-    store=True,
-    messages=[
-      {"role:" "system, content": "You are an assistant that is tasked with providing feedback about memory usage on a esp32 microcontroller. You will be given values for free_heap (KB), min_free_heap (KB), largest_block (KB), total_heap (KB), free_internal_ram (KB), and possibly a timestamp. You will receive an array of json objects containing those values. You need to respond to the prompt with concise feedback in an enthusiastic manner."},
-      {"role": "user", "content": prompt},
-      {"role": "user", "content": data}
+  try:
+      data_summary = str(data)  
+
+      # Call OpenAI API for completion
+      completion = client.chat.completions.create(
+          model="gpt-3.5-turbo",  
+          messages=[
+              {"role": "system", "content": "You are an assistant tasked with providing feedback about memory usage on an ESP32 microcontroller. You will be given memory values such as free_heap (KB), min_free_heap (KB), largest_block (KB), total_heap (KB), free_internal_ram (KB), and possibly a timestamp. Respond concisely with feedback."},
+              {"role": "user", "content": prompt},
+              {"role": "user", "content": data_summary}  
+          ]
+      )
       
-    ]
-  )
-  return jsonify({"response": completion.choices[0].message})
+      # Returning the response from OpenAI
+      return jsonify({"response": completion.choices[0].message.content}), 200
+  except Exception as e:
+      print(str(e))
+      return jsonify({'error': str(e)}), 500
   
 
 @socket.on('connect')

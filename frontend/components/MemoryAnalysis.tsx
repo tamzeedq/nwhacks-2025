@@ -22,6 +22,7 @@ type Message = {
 
 interface MemoryAnalysisProps {
   type: keyof typeof memoryTypes;
+  data: any[];
 }
 
 const ChatContent = memo(({ 
@@ -145,7 +146,7 @@ const ChatContent = memo(({
 
 ChatContent.displayName = 'ChatContent';
 
-const MemoryAnalysis = ({ type }: MemoryAnalysisProps) => {
+const MemoryAnalysis = ({ type, data}: MemoryAnalysisProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -156,28 +157,68 @@ const MemoryAnalysis = ({ type }: MemoryAnalysisProps) => {
   const memType = memoryTypes[type];
   const accentColor = memType.color;
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
-
-    setMessages(prev => [...prev, { 
-      text: inputMessage, 
-      sender: 'user',
-      timestamp: new Date()
-    }]);
-
+  
+    // Add user's message to the chat
+    setMessages(prev => [
+      ...prev,
+      { 
+        text: inputMessage, 
+        sender: 'user', 
+        timestamp: new Date() 
+      }
+    ]);
+  
     setLoading(true);
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        text: "This is a sample response from the bot.",
-        sender: 'bot',
-        timestamp: new Date()
-      }]);
+  
+    try {
+      // Send a request to the backend
+      const response = await fetch("http://localhost:5000/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: inputMessage,
+          data: data, // Replace 'data' with the actual memory data you want to send
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch the response from the server");
+      }
+  
+      const result = await response.json();
+  
+      // Add the bot's response to the chat
+      setMessages(prev => [
+        ...prev,
+        { 
+          text: result.response, 
+          sender: 'bot', 
+          timestamp: new Date() 
+        }
+      ]);
+    } catch (error) {
+      console.error("Error:", error);
+  
+      // Handle the error in the chat
+      setMessages(prev => [
+        ...prev,
+        { 
+          text: "Something went wrong. Please try again later.", 
+          sender: 'bot', 
+          timestamp: new Date() 
+        }
+      ]);
+    } finally {
       setLoading(false);
-    }, 1000);
-
-    setInputMessage('');
-    inputRef.current?.focus();
+      setInputMessage('');
+      inputRef.current?.focus();
+    }
   };
+  
 
   return (
     <>

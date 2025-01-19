@@ -4,6 +4,7 @@ from datetime import datetime
 
 
 def saveEspData(data: json):
+    return
     # Path to save the data
     path_to = "../data/"
     

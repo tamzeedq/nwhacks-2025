@@ -193,7 +193,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
         </Card>
 
         <div>
-          <MemoryAnalysis type={type}/>
+          <MemoryAnalysis type={type} data={data}/>
         </div>
       </motion.div>
     </div>
