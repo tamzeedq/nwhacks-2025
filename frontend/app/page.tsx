@@ -2,9 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import MiniGraph from './components/MiniGraph';
-import DetailedView from './components/DetailedView';
-import { ThemeToggle } from './components/ThemeToggle';
+import MiniGraph from '../components/MiniGraph';
+import DetailedView from '../components/DetailedView';
+import { ThemeToggle } from '../components/ThemeToggle';
 import io from 'socket.io-client';
 import { memoryData, memoryTypes } from '../constants/constants';
 

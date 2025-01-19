@@ -3,10 +3,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Card, CardContent } from "../../components/ui/card";
-import { Alert, AlertDescription, AlertTitle } from '../../components/ui/alert';
+import { Card, CardContent } from "./ui/card";
+import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
-import { memoryTypes } from '../../constants/constants';
+import { memoryTypes } from '../constants/constants';
 
 interface DetailedViewProps {
   type: keyof typeof memoryTypes;

@@ -1,8 +1,8 @@
 "use client"
 import { motion } from 'framer-motion';
 import { LineChart, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { memoryTypes } from '../../constants/constants';
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { memoryTypes } from '../constants/constants';
 
 interface MiniGraphProps {
   data: any[];
