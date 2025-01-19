@@ -73,7 +73,7 @@ const MemoryDashboard = () => {
             }}
             className="text-5xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
           >
-            MemVis
+            MemViz
           </motion.div>
         </h1>
         {Object.keys(memoryTypes).map((type, index) => (
