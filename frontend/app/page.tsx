@@ -17,10 +17,9 @@ const MemoryDashboard = () => {
 
     socket.on('connect', () => {
       console.log('Connected to the web socket');
-      socket.emit('get_data');
     });
 
-    socket.on('response', (data: any) => {
+    socket.on('data', (data: any) => {
       try {
         console.log(data);
       } catch (err) {
