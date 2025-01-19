@@ -1,13 +1,38 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { memoryData, memoryTypes } from '../constants/constants';
 import MiniGraph from './components/MiniGraph';
 import DetailedView from './components/DetailedView';
+import io, { Socket } from 'socket.io-client';
+import { memoryData, memoryTypes } from '../constants/constants';
 
 const MemoryDashboard = () => {
   const [selectedType, setSelectedType] = useState<keyof typeof memoryTypes>('heap');
+  const [data, setData] = useState<any>({});
+
+  useEffect(() => {
+    const socket = io('http://127.0.0.1:5000');
+
+    // Event handling happens here
+    socket.on('connect', () => {
+      console.log('Connected to the web socket')
+
+      socket.emit('get_data');
+    });
+
+    socket.on('response', (data: any) => {
+      try {
+        console.log(data)
+      } catch (err) {
+        console.log("Error pulling data", err);
+      }
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []); 
 
   return (
     <div className="flex gap-6 p-6 min-h-screen">
