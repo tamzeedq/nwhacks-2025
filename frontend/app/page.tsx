@@ -6,12 +6,24 @@ import MiniGraph from '../components/MiniGraph';
 import DetailedView from '../components/DetailedView';
 import { ThemeToggle } from '../components/ThemeToggle';
 import io from 'socket.io-client';
-import { memoryData, memoryTypes } from '../constants/constants';
+import { memoryTypes } from '../constants/constants';
+
+// Define the data structure for ESP32 memory data
+interface ESPMemoryData {
+  free_heap: number;
+  min_free_heap: number;
+  largest_block: number;
+  total_heap: number;
+  free_internal_ram: number;
+  stack_watermark: number;
+  time?: string; 
+}
+
 
 const MemoryDashboard = () => {
   const [selectedType, setSelectedType] = useState<keyof typeof memoryTypes>('heap');
-  const [data, setData] = useState<any>({});
-
+  const [timeSeriesData, setTimeSeriesData] = useState<ESPMemoryData[]>([]);
+  
   useEffect(() => {
     const socket = io('http://127.0.0.1:5000');
 
@@ -19,18 +31,31 @@ const MemoryDashboard = () => {
       console.log('Connected to the web socket');
     });
 
-    socket.on('data', (data: any) => {
+    socket.on('data', (newData: ESPMemoryData) => {
       try {
-        console.log(data);
+        // Add timestamp to the data
+        const dataWithTime = {
+          ...newData,
+          time: new Date().toLocaleTimeString()
+        };
+
+        setTimeSeriesData(prev => {
+          // Keep last 50 data points for the time series
+          const newData = [...prev, dataWithTime];
+          if (newData.length > 50) {
+            return newData.slice(-50);
+          }
+          return newData;
+        });
       } catch (err) {
-        console.log("Error pulling data", err);
+        console.log("Error processing data", err);
       }
     });
 
     return () => {
       socket.disconnect();
     };
-  }, []); 
+  }, []);
 
   return (
     <div className="flex gap-6 p-6 min-h-screen bg-background">
@@ -44,11 +69,9 @@ const MemoryDashboard = () => {
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ delay: index * 0.1 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
           >
             <MiniGraph
-              data={memoryData}
+              data={timeSeriesData}
               type={type as keyof typeof memoryTypes}
               isActive={selectedType === type}
               onClick={() => setSelectedType(type as keyof typeof memoryTypes)}
@@ -67,7 +90,7 @@ const MemoryDashboard = () => {
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <DetailedView type={selectedType} data={memoryData} />
+          <DetailedView type={selectedType} data={timeSeriesData} />
         </motion.div>
       </AnimatePresence>
     </div>

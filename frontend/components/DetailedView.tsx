@@ -16,7 +16,7 @@ interface DetailedViewProps {
 
 const DetailedView = ({ type, data }: DetailedViewProps) => {
   const memType = memoryTypes[type];
-  const currentValue = data[data.length - 1][memType.dataKey];
+  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 0;
   const usagePercentage = ((currentValue / memType.total) * 100).toFixed(1);
 
   return (
@@ -70,7 +70,6 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              {/* Stats grid items */}
               <StatsItem
                 label="Current Usage"
                 value={`${(currentValue / (memType.unit === 'KB' ? 1024 : 1)).toFixed(2)} ${memType.unit}`}

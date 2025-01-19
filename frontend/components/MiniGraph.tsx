@@ -1,4 +1,5 @@
 "use client"
+
 import { motion } from 'framer-motion';
 import { LineChart, Line, ResponsiveContainer, CartesianGrid } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
@@ -13,7 +14,7 @@ interface MiniGraphProps {
 
 const MiniGraph = ({ data, type, isActive, onClick }: MiniGraphProps) => {
   const memType = memoryTypes[type];
-  const currentValue = data[data.length - 1][memType.dataKey];
+  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 0;
 
   return (
     <motion.div
@@ -34,14 +35,14 @@ const MiniGraph = ({ data, type, isActive, onClick }: MiniGraphProps) => {
         <CardContent className="p-3">
           <div className="h-24">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={data.slice(-5)}>
+              <LineChart data={data.slice(-10)}>
                 <Line 
                   type="monotone" 
                   dataKey={memType.dataKey} 
                   stroke={memType.color} 
                   dot={false}
                 />
-                <CartesianGrid stroke="#ccc" />
+                <CartesianGrid stroke="#ccc" strokeDasharray="3 3" />
               </LineChart>
             </ResponsiveContainer>
           </div>
