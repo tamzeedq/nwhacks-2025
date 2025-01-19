@@ -20,7 +20,7 @@ interface DetailedViewProps {
 
 const DetailedView = ({ type, data }: DetailedViewProps) => {
   const memType = memoryTypes[type];
-  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 0;
+  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 100;
   const usagePercentage = ((1 - (currentValue / memType.total)) * 100).toFixed(1);
   
   // Transform data to percentages
@@ -97,7 +97,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
           stroke={memType.color}
           name={memType.title}
           stackId="a"
-          dot={true}
+          // dot={true}
         />
       </AreaChart>
     </ChartContainer>
@@ -180,7 +180,11 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
                 label="Usage"
                 value={`${usagePercentage}%`}
               />
-              <ForecasterButton />
+              <ForecasterButton 
+                type={type} 
+                data={percentageData} 
+                chartConfig={chartConfig}
+              />
             </motion.div>
 
             <div className="h-80">
