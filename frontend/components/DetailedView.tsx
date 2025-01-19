@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { memoryTypes } from '../constants/constants';
 import MemoryAnalysis from './MemoryAnalysis';
+import ForecasterButton from './Forecaster';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../components/ui/chart"
 import { ChartNoAxesCombined } from "lucide-react"
 import { Button } from "../components/ui/button"
@@ -179,9 +180,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
                 label="Usage"
                 value={`${usagePercentage}%`}
               />
-              <Button>
-                <ChartNoAxesCombined /> Start Forecaster
-              </Button>
+              <ForecasterButton />
             </motion.div>
 
             <div className="h-80">
