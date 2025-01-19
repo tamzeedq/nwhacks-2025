@@ -8,9 +8,9 @@ import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { memoryTypes } from '../constants/constants';
 import MemoryAnalysis from './MemoryAnalysis';
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../components/ui/chart"
 import { ChartNoAxesCombined } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../components/ui/button"
 
 interface DetailedViewProps {
   type: keyof typeof memoryTypes;
@@ -177,7 +177,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
         </Card>
 
         <div>
-          <MemoryAnalysis />
+          <MemoryAnalysis type={type}/>
         </div>
       </motion.div>
     </div>
