@@ -63,6 +63,19 @@ const MemoryDashboard = () => {
       
       {/* Sidebar with mini graphs */}
       <div className="w-64 h-[calc(100vh-3rem)] flex flex-col justify-around">
+        <h1>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+            className="text-5xl text-center font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
+          >
+            MemVis
+          </motion.div>
+        </h1>
         {Object.keys(memoryTypes).map((type, index) => (
           <motion.div
             key={type}
