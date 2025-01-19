@@ -9,6 +9,8 @@ import { AlertCircle } from 'lucide-react';
 import { memoryTypes } from '../constants/constants';
 import MemoryAnalysis from './MemoryAnalysis';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartNoAxesCombined } from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 interface DetailedViewProps {
   type: keyof typeof memoryTypes;
@@ -139,11 +141,12 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
+        className='grid gap-12'
       >
         <Card>
           <CardContent className="pt-6">
             <motion.div
-              className="grid grid-cols-3 gap-4 mb-6"
+              className="grid grid-cols-4 gap-4 mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -161,6 +164,9 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
                 label="Usage"
                 value={`${usagePercentage}%`}
               />
+              <Button className='w-50'>
+                <ChartNoAxesCombined /> Forecast
+              </Button>
             </motion.div>
 
             <div className="h-80">
@@ -171,7 +177,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
           </CardContent>
         </Card>
 
-        <div className='mt-6'>
+        <div>
           <MemoryAnalysis />
         </div>
       </motion.div>
