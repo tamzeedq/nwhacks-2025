@@ -20,18 +20,27 @@ interface DetailedViewProps {
 const DetailedView = ({ type, data }: DetailedViewProps) => {
   const memType = memoryTypes[type];
   const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 0;
-  const usagePercentage = ((currentValue / memType.total) * 100).toFixed(1);
+  const usagePercentage = ((1 - (currentValue / memType.total)) * 100).toFixed(1);
+  
+  // Transform data to percentages
+  const percentageData = data.map(item => ({
+    ...item,
+    [memType.dataKey]: (1 - (item[memType.dataKey] / memType.total)) * 100,
+    time: item.time
+  }));
+
   const chartConfig = {
     mobile: {
       label: "Mobile",
       color: memType.color,
     },
   } satisfies ChartConfig
+
   const gradientChart = (
     <ChartContainer config={chartConfig}>
       <AreaChart
         accessibilityLayer
-        data={data}
+        data={percentageData}
         margin={{
           left: 12,
           right: 12,
@@ -44,8 +53,15 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
           axisLine={false}
           tickMargin={8}
         />
-        <YAxis />
-        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+        <YAxis 
+          domain={[0, 100]}
+          tickFormatter={(value) => `${value}%`}
+        />
+        <ChartTooltip 
+          cursor={false} 
+          content={<ChartTooltipContent />}
+          formatter={(value: any) => [`${Number(value).toFixed(1)}%`]} 
+        />
         <defs>
           <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
             <stop
@@ -152,7 +168,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
               transition={{ delay: 0.3 }}
             >
               <StatsItem
-                label="Current Usage"
+                label="Current Free"
                 value={`${(currentValue / (memType.unit === 'KB' ? 1024 : 1)).toFixed(2)} ${memType.unit}`}
               />
               <StatsItem
