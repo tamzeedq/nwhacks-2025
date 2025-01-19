@@ -1,6 +1,7 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO, emit
+from esp import saveEspData
 
 app = Flask(__name__)
 CORS(app)
@@ -12,12 +13,18 @@ def hello_world():
 
 @app.post("/esp32")
 def esp32():
+  data = request.get_json()
+  try:
+    saveEspData(data)
+  except:
+    return "Error saving .json"
+  
+  socket.emit('data', data)
   return "Received esp32 memory data"
 
-@socket.on('get_data')
-def handle_message(data = "testing socket"):
-    print(f"Received message: {data}")
-    emit('response', data)
+@socket.on('connect')
+def handle_connect():
+    print(f"Connected")
 
 
 if __name__ == '__main__':
