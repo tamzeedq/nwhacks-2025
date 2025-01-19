@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import MiniGraph from './components/MiniGraph';
 import DetailedView from './components/DetailedView';
-import io, { Socket } from 'socket.io-client';
+import { ThemeToggle } from './components/ThemeToggle';
+import io from 'socket.io-client';
 import { memoryData, memoryTypes } from '../constants/constants';
 
 const MemoryDashboard = () => {
@@ -14,16 +15,14 @@ const MemoryDashboard = () => {
   useEffect(() => {
     const socket = io('http://127.0.0.1:5000');
 
-    // Event handling happens here
     socket.on('connect', () => {
-      console.log('Connected to the web socket')
-
+      console.log('Connected to the web socket');
       socket.emit('get_data');
     });
 
     socket.on('response', (data: any) => {
       try {
-        console.log(data)
+        console.log(data);
       } catch (err) {
         console.log("Error pulling data", err);
       }
@@ -35,7 +34,9 @@ const MemoryDashboard = () => {
   }, []); 
 
   return (
-    <div className="flex gap-6 p-6 min-h-screen">
+    <div className="flex gap-6 p-6 min-h-screen bg-background">
+      <ThemeToggle />
+      
       {/* Sidebar with mini graphs */}
       <div className="w-64 h-[calc(100vh-3rem)] flex flex-col justify-around">
         {Object.keys(memoryTypes).map((type, index) => (
