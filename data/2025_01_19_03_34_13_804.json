@@ -1,0 +1,8 @@
+{
+    "free_heap": 280844,
+    "min_free_heap": 272920,
+    "largest_block": 212992,
+    "total_heap": 354176,
+    "free_internal_ram": 280844,
+    "stack_watermark": 1128
+}

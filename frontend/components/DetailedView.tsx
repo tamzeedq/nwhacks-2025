@@ -7,6 +7,7 @@ import { Card, CardContent } from "./ui/card";
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { memoryTypes } from '../constants/constants';
+import MemoryAnalysis from './MemoryAnalysis';
 
 interface DetailedViewProps {
   type: keyof typeof memoryTypes;
@@ -19,7 +20,7 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
   const usagePercentage = ((currentValue / memType.total) * 100).toFixed(1);
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 px-6">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -102,6 +103,10 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
             </div>
           </CardContent>
         </Card>
+
+        <div className='mt-6'>
+          <MemoryAnalysis />
+        </div>
       </motion.div>
     </div>
   );
