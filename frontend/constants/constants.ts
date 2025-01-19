@@ -7,38 +7,38 @@ export const memoryData = [
     { time: '00:20', freeHeap: 185000, flashUsed: 715000, stackUsed: 3500, psramUsed: 162000 },
 ];
   
+// Define memory types with updated data keys
 export const memoryTypes = {
-    heap: {
-      title: 'Heap Memory',
-      dataKey: 'freeHeap',
-      color: '#0ea5e9',
-      unit: 'KB',
-      description: 'Dynamic memory allocation for runtime variables and objects',
-      total: 320000,
-    },
-    flash: {
-      title: 'Flash Memory',
-      dataKey: 'flashUsed',
-      color: '#84cc16',
-      unit: 'KB',
-      description: 'Non-volatile storage for program code and constant data',
-      total: 4000000,
-    },
-    stack: {
-      title: 'Stack Memory',
-      dataKey: 'stackUsed',
-      color: '#f59e0b',
-      unit: 'B',
-      description: 'Memory for function calls and local variables',
-      total: 8000,
-    },
-    psram: {
-      title: 'PSRAM',
-      dataKey: 'psramUsed',
-      color: '#8b5cf6',
-      unit: 'KB',
-      description: 'External RAM for additional memory requirements',
-      total: 200000,
-    },
-  };
-  
+  heap: {
+    title: 'Heap Memory',
+    description: 'Current free heap memory available',
+    dataKey: 'free_heap',
+    total: 354176, 
+    color: '#2563eb',
+    unit: 'KB'
+  },
+  minHeap: {
+    title: 'Minimum Free Heap',
+    description: 'Lowest free heap memory recorded',
+    dataKey: 'min_free_heap',
+    total: 354176,
+    color: '#16a34a',
+    unit: 'KB'
+  },
+  largestBlock: {
+    title: 'Largest Block',
+    description: 'Size of the largest free memory block',
+    dataKey: 'largest_block',
+    total: 354176,
+    color: '#9333ea',
+    unit: 'KB'
+  },
+  internalRam: {
+    title: 'Internal RAM',
+    description: 'Free internal RAM memory',
+    dataKey: 'free_internal_ram',
+    total: 354176,
+    color: '#dc2626',
+    unit: 'KB'
+  }
+};

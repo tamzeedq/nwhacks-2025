@@ -14,6 +14,7 @@ def hello_world():
 @app.post("/esp32")
 def esp32():
   data = request.get_json()
+  print(data)
   try:
     saveEspData(data)
   except:
@@ -28,4 +29,4 @@ def handle_connect():
 
 
 if __name__ == '__main__':
-    socket.run(app, debug=False)
+  socket.run(app, host='0.0.0.0', port=5000, debug=False)
