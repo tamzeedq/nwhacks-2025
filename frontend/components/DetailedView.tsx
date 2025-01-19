@@ -20,7 +20,7 @@ interface DetailedViewProps {
 
 const DetailedView = ({ type, data }: DetailedViewProps) => {
   const memType = memoryTypes[type];
-  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 100;
+  const currentValue = data.length > 0 ? data[data.length - 1][memType.dataKey] : 0;
   const usagePercentage = ((1 - (currentValue / memType.total)) * 100).toFixed(1);
   
   // Transform data to percentages
