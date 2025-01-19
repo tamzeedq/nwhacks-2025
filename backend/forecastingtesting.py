@@ -8,6 +8,8 @@ from keras._tf_keras.keras.layers import Dense, LSTM
 MAX_SIZE = 50
 
 def generatePredictions(existing_data, memType):
+    print(existing_data)
+    print(memType)
     # Use the last 50 data points or fewer if that's all that's available
     if len(existing_data) > MAX_SIZE:
         existing_data = existing_data[-MAX_SIZE:]
@@ -109,7 +111,6 @@ def generatePredictions(existing_data, memType):
 
     # Generate future indices
     future_indices = np.arange(df["index"].iloc[-1] + 1, df["index"].iloc[-1] + 1 + future_steps)
-    print(forecast)
 
     # Plot the forecast
     # plt.figure(figsize=(10, 5))
@@ -120,6 +121,7 @@ def generatePredictions(existing_data, memType):
     # plt.title("Time Series Forecast with Neural Network")
     # plt.legend()
     # plt.show()
+    return forecast
 
 mockData = [
     {
