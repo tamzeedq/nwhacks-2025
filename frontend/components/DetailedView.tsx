@@ -163,8 +163,8 @@ const DetailedView = ({ type, data }: DetailedViewProps) => {
                 label="Usage"
                 value={`${usagePercentage}%`}
               />
-              <Button className='w-50'>
-                <ChartNoAxesCombined /> Forecast
+              <Button>
+                <ChartNoAxesCombined /> Start Forecaster
               </Button>
             </motion.div>
 

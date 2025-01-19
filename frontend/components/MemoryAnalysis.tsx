@@ -156,14 +156,6 @@ const MemoryAnalysis = ({ type }: MemoryAnalysisProps) => {
   const memType = memoryTypes[type];
   const accentColor = memType.color;
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
   const handleSendMessage = () => {
     if (!inputMessage.trim()) return;
 
