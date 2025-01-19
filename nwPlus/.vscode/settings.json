@@ -1,0 +1,14 @@
+{
+    "C_Cpp.intelliSenseEngine": "default",
+    "idf.espIdfPath": "/home/diego/esp/v5.4/esp-idf",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-builtin.cfg"
+    ],
+    "idf.port": "/dev/ttyACM0",
+    "idf.toolsPath": "/home/diego/.espressif",
+    "idf.flashType": "UART",
+    "files.associations": {
+        "lwipopts.h": "c",
+        "wifi_manager.h": "c"
+    }
+}
